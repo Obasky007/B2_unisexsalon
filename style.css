@@ -257,7 +257,7 @@ h4 {
 
 .hero-image-wrapper {
     position: relative;
-    border-radius: 8px;
+    border-radius: 5px;
     overflow: hidden;
     aspect-ratio: 4 / 5;
     max-height: 520px;
