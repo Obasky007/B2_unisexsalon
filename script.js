@@ -49,6 +49,80 @@
         observer.observe(el);
     });
 
+    // ── Instagram Carousel ──
+    var carousel = document.querySelector('.instagram-previews');
+    var items = document.querySelectorAll('.instagram-preview-item');
+    var prevBtn = document.querySelector('.carousel-prev');
+    var nextBtn = document.querySelector('.carousel-next');
+    var currentIndex = 0;
+    var autoSlideInterval;
+
+    function isMobileView() {
+        return window.innerWidth < 768;
+    }
+
+    function getMaxIndex() {
+        return isMobileView() ? items.length - 2 : 0;
+    }
+
+    function showSlide(index) {
+        if (isMobileView() && carousel) {
+            var offset = index * 50;
+            carousel.style.transform = `translateX(-${offset}%)`;
+        }
+        currentIndex = index;
+    }
+
+    function nextSlide() {
+        if (isMobileView()) {
+            var maxIdx = getMaxIndex();
+            currentIndex = currentIndex >= maxIdx ? 0 : currentIndex + 1;
+            showSlide(currentIndex);
+        }
+    }
+
+    function prevSlide() {
+        if (isMobileView()) {
+            var maxIdx = getMaxIndex();
+            currentIndex = currentIndex <= 0 ? maxIdx : currentIndex - 1;
+            showSlide(currentIndex);
+        }
+    }
+
+    function startAutoSlide() {
+        if (isMobileView()) {
+            autoSlideInterval = setInterval(nextSlide, 4000);
+        }
+    }
+
+    function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+    }
+
+    if (carousel && items.length > 0) {
+        // Initialize first slide
+        showSlide(0);
+
+        // Event listeners for buttons
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function () {
+                prevSlide();
+                stopAutoSlide();
+                startAutoSlide();
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function () {
+                nextSlide();
+                stopAutoSlide();
+                startAutoSlide();
+            });
+        }
+
+        // Start auto slide
+        startAutoSlide();
+    }
+
     // ── Gallery hover play and lazy load ──
     var galleryVideos = document.querySelectorAll('.gallery-item video');
 
